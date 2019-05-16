@@ -22,29 +22,23 @@ namespace DotNetCoreAPI.Controllers
             return _productService.GetAllProducts();
         }
 
-        // GET api/products/categories
-        [HttpGet("{category}")]
-        public ActionResult<IEnumerable<ProductDto>> Get(string category)
+        // GET api/products/category/products
+        [HttpGet("{category}/products")]
+        public ActionResult<IEnumerable<ProductDto>> Get([FromBody] string category)
         {
             return _productService.GetAllProductsByCategory(category);
         }
 
         // POST api/products
         [HttpPost]
-        public void Post([FromBody] string name, string description, string category)
+        public void Post([FromBody] ProductDto productDto)
         {
-            var newProduct = new ProductDto
-            {
-                Name = name,
-                Description = description,
-                Category = category
-            };
-            _productService.CreateProduct(newProduct);
+            _productService.CreateProduct(productDto);
         }
 
-        // DELETE api/products/name
-        [HttpDelete("{name}")]
-        public void Delete(string name)
+        // DELETE api/products/{productName}
+        [HttpDelete("{productName}")]
+        public void Delete([FromBody] string name)
         {
             _productService.DeleteProduct(name);
         }
